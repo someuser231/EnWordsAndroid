@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "EnWordsAndroid"
 include(":app")
+include(":data")
+include(":domain")
