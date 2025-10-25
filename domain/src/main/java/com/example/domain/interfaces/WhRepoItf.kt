@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface WhRepoItf {
     fun translate(word: String): Flow<WordModel>
 
-    fun insertToDb()
+    fun insertToDb(word: WordModel)
     fun loadFromDb()
 
 }

@@ -25,7 +25,7 @@ class WhRepo: WhRepoItf {
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun insertToDb() {
+    override fun insertToDb(word: WordModel) {
         TODO("Not yet implemented")
     }
 
