@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.navigation.compose.rememberNavController
 import com.example.enwordsandroid.ui.Drawer
 import com.example.enwordsandroid.ui.Home
 import com.example.enwordsandroid.view_models.MainVM

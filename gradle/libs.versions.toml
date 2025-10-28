@@ -13,6 +13,7 @@ material = "1.13.0"
 room = "2.8.3"
 ksp = "2.2.10-2.0.2"
 retrofit = "3.0.0"
+navCompose = "2.9.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +36,7 @@ androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = 
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit"}
 retrofit-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navCompose"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
