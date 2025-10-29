@@ -1,7 +1,10 @@
 package com.example.domain.usecases
 
-class WhSaveWord {
-    fun execute() {
+import com.example.domain.interfaces.WhRepoItf
+import com.example.domain.models.WordModel
 
+class WhSaveWord(val repo: WhRepoItf) {
+    fun execute(model: WordModel) {
+        repo.insertToDb(model)
     }
 }

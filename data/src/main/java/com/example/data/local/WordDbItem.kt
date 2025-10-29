@@ -6,21 +6,21 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "all_words")
 data class WordDbItem(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
 
     @ColumnInfo(name = "word")
     val word: String,
 
     @ColumnInfo(name = "tc_uk")
-    val tcUk: String,
+    val tcUk: String?,
 
     @ColumnInfo(name = "tc_us")
-    val tcUs: String,
+    val tcUs: String?,
 
     @ColumnInfo(name = "word_form")
-    val wordForm: String,
+    val wordForm: List<String>?,
 
     @ColumnInfo(name = "tl")
-    val tl: String
+    val tl: List<String>?
 )

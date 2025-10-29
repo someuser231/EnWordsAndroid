@@ -1,17 +1,20 @@
 package com.example.data.repo
 
 import android.util.Log
+import com.example.data.local.WordsDb
 import com.example.data.remote.RetrofitUtils
 import com.example.data.remote.wh.WhApi
 import com.example.data.remote.wh.WhResponse
 import com.example.domain.interfaces.WhRepoItf
 import com.example.domain.models.WordModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 
-class WhRepo: WhRepoItf {
+class WhRepo(val db: WordsDb): WhRepoItf {
     override fun translate(word: String): Flow<WordModel> {
         val retrofit = RetrofitUtils.getInstance().create(WhApi::class.java)
         return flow {
@@ -26,7 +29,9 @@ class WhRepo: WhRepoItf {
     }
 
     override fun insertToDb(word: WordModel) {
-        TODO("Not yet implemented")
+        CoroutineScope(Dispatchers.IO).launch {
+            db.getWordDao().insertWord(db.toDbItem(word))
+        }
     }
 
     override fun loadFromDb() {

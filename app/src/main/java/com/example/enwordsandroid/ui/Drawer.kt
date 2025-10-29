@@ -1,5 +1,7 @@
 package com.example.enwordsandroid.ui
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.DrawerValue
@@ -17,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.enwordsandroid.view_models.MainVM
+import com.example.enwordsandroid.view_models.MainViewModel
 import kotlinx.coroutines.launch
 
 
@@ -25,7 +27,7 @@ const val screen_home = "home"
 const val screen_dict = "dictionary"
 
 @Composable
-fun Drawer(mainVm: MainVM) {
+fun Drawer(mainViewModel: MainViewModel) {
     val drawerItems = listOf(
         DrawerItem(
             title = "Home",
@@ -56,14 +58,14 @@ fun Drawer(mainVm: MainVM) {
                         },
                         selected = selectedItem.value == item,
                         onClick = {
+                            navController.navigate(item.screen) {
+                                popUpTo(item.screen) {
+                                    inclusive = true
+                                }
+                            }
                             scope.launch {
                                 selectedItem.value = item
                                 drawerState.close()
-                                navController.navigate(item.screen) {
-                                    popUpTo(item.screen) {
-                                        inclusive = true
-                                    }
-                                }
                             }
                         }
                     )
@@ -73,10 +75,16 @@ fun Drawer(mainVm: MainVM) {
         content = {
             NavHost(
                 navController = navController,
-                startDestination = screen_home
+                startDestination = screen_home,
+                enterTransition = {
+                    EnterTransition.None
+                },
+                exitTransition = {
+                    ExitTransition.None
+                }
             ) {
                 composable(screen_home) {
-                    Home(mainVm)
+                    Home(mainViewModel)
                 }
                 composable(screen_dict) {
                     Dictionary()

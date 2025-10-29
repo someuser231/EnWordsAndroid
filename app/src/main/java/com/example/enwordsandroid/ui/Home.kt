@@ -19,26 +19,27 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.enwordsandroid.view_models.MainVM
+import com.example.domain.usecases.WhSaveWord
+import com.example.enwordsandroid.view_models.MainViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
 var inputWord = MutableStateFlow("")
 
 @Composable
-fun Home(mainVM: MainVM) {
+fun Home(mainViewModel: MainViewModel) {
     Column(
         modifier = Modifier.fillMaxSize().padding(20.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Companion.CenterHorizontally
     ) {
-        UserInput(mainVM)
+        UserInput(mainViewModel)
         Spacer(Modifier.height(10.dp))
-        Translation(mainVM)
+        Translation(mainViewModel)
     }
 }
 
 @Composable
-fun UserInput(mainVM: MainVM) {
+fun UserInput(mainViewModel: MainViewModel) {
     Column {
         TextField(
             modifier = Modifier.fillMaxWidth(),
@@ -53,12 +54,14 @@ fun UserInput(mainVM: MainVM) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = { mainVM.translate(inputWord.value) },
+                onClick = { mainViewModel.translate(inputWord.value) },
             ) {
                 Text("Translate")
             }
             Button(
-                onClick = { },
+                onClick = {
+                    mainViewModel.saveWord()
+                },
             ) {
                 Text("Save")
             }
@@ -67,7 +70,7 @@ fun UserInput(mainVM: MainVM) {
 }
 
 @Composable
-fun Translation(mainVm: MainVM) {
+fun Translation(mainViewModel: MainViewModel) {
     Column (
         modifier = Modifier.fillMaxWidth(),
         ) {
@@ -76,15 +79,15 @@ fun Translation(mainVm: MainVM) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = mainVm.word.collectAsState().value?.tcUs ?: "us"
+                text = mainViewModel.word.collectAsState().value?.tcUs ?: "us"
             )
             Spacer(Modifier.Companion.width(20.dp))
             Text(
-                text = mainVm.word.collectAsState().value?.tcUk ?: "uk"
+                text = mainViewModel.word.collectAsState().value?.tcUk ?: "uk"
             )
         }
         Spacer(Modifier.height(20.dp))
-        val tls = mainVm.word.collectAsState().value?.tl ?: listOf("")
+        val tls = mainViewModel.word.collectAsState().value?.tl ?: listOf("")
         LazyColumn {
             items(tls) { tl ->
                 Text(text = "- $tl")
