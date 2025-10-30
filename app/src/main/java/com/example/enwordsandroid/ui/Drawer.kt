@@ -87,7 +87,8 @@ fun Drawer(mainViewModel: MainViewModel) {
                     Home(mainViewModel)
                 }
                 composable(screen_dict) {
-                    Dictionary()
+                    Dictionary(mainViewModel)
+                    mainViewModel.getWords()
                 }
             }
         }

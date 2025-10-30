@@ -4,8 +4,8 @@ import com.example.domain.interfaces.WordsRepoItf
 import com.example.domain.models.WordModel
 import kotlinx.coroutines.flow.Flow
 
-class WhTranslate(val repo: WordsRepoItf) {
-    fun execute(word: String): Flow<WordModel> {
-        return repo.translate(word)
+class GetWords(val repo: WordsRepoItf) {
+    fun execute(): Flow<MutableList<WordModel>> {
+        return repo.loadFromDb()
     }
 }

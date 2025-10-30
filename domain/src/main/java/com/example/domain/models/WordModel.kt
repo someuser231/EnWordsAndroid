@@ -6,5 +6,7 @@ data class WordModel(
     val tcUk: String?,
     val tcUs: String?,
     val wordForm: List<String>?,
-    val tl: List<String>?
+    val tl: List<String>?,
+    var learningStatus: Int = 0,
+    var inLearning: Boolean = false
 )

@@ -1,11 +1,11 @@
 package com.example.data.repo
 
 import android.util.Log
-import com.example.data.local.WordsDb
+import com.example.data.local.MainDb
 import com.example.data.remote.RetrofitUtils
 import com.example.data.remote.wh.WhApi
 import com.example.data.remote.wh.WhResponse
-import com.example.domain.interfaces.WhRepoItf
+import com.example.domain.interfaces.WordsRepoItf
 import com.example.domain.models.WordModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
-class WhRepo(val db: WordsDb): WhRepoItf {
+class WordsRepo(val db: MainDb): WordsRepoItf {
     override fun translate(word: String): Flow<WordModel> {
         val retrofit = RetrofitUtils.getInstance().create(WhApi::class.java)
         return flow {
@@ -30,12 +30,30 @@ class WhRepo(val db: WordsDb): WhRepoItf {
 
     override fun insertToDb(word: WordModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            db.getWordDao().insertWord(db.toDbItem(word))
+            db.getWordDao().insertWord(db.wordToDbItem(word))
         }
     }
 
-    override fun loadFromDb() {
-        TODO("Not yet implemented")
+    override fun loadFromDb(): Flow<MutableList<WordModel>> {
+        return flow {
+            try {
+                val dbItems = db.getWordDao().getWords()
+                val models = mutableListOf<WordModel>()
+                for (i in dbItems) {
+                    models.add(db.wordToModel(i))
+                }
+                emit(models)
+            }
+            catch (e: Exception) {
+                Log.e("EnWordsLog", e.toString())
+            }
+        }
+    }
+
+    override fun updateItemDb(word: WordModel) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val id = db.getWordDao().updateWord(db.wordToDbItem(word))
+        }
     }
 
     private fun responseToModel(resp: WhResponse): WordModel {
