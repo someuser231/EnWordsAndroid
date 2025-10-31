@@ -55,10 +55,10 @@ class MainViewModel(val repo: WordsRepo): ViewModel() {
         }
     }
 
-    fun learnWords(know: Boolean): WordModel? {
+    fun learnWords(curWord: WordModel?, know: Boolean): WordModel? {
         if (lnWords.value != null) {
             if (lnWords.value!!.isNotEmpty()) {
-                return LearnWords(lnWords.value!!).execute(know)
+                return LearnWords(repo, curWord, lnWords.value!!).execute(know)
             }
         }
         return null

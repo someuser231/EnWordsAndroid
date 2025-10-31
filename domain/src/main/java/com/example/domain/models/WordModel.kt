@@ -8,5 +8,7 @@ data class WordModel(
     val wordForm: List<String>?,
     val tl: List<String>?,
     var learningStatus: Int = 0,
-    var inLearning: Boolean = false
+    var inLearning: Boolean = false,
+    var successAnswer: Int = 0,
+    var failAnswer: Int = 0,
 )

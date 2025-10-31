@@ -40,7 +40,7 @@ fun Learning(mainViewModel: MainViewModel) {
         ) {
             Button(
                 onClick = {
-                    lnWord.value = mainViewModel.learnWords(true)
+                    lnWord.value = mainViewModel.learnWords(lnWord.value, true)
                 }
             ) {
                 Text("I know it")
@@ -48,7 +48,7 @@ fun Learning(mainViewModel: MainViewModel) {
 
             Button(
                 onClick = {
-                    lnWord.value = mainViewModel.learnWords(false)
+                    lnWord.value = mainViewModel.learnWords(lnWord.value, false)
                 }
             ) {
                 Text("I don't know it")

@@ -5,12 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.domain.models.LearningStatusModel
 import com.example.domain.models.WordModel
-import com.example.domain.utils.LearningStatusUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Database(
     entities = [
@@ -41,7 +36,9 @@ abstract class MainDb: RoomDatabase() {
             wordForm = model.wordForm,
             tl = model.tl,
             learningStatus = model.learningStatus,
-            inLearning = model.inLearning
+            inLearning = model.inLearning,
+            successAnswer = model.successAnswer,
+            failAnswer = model.failAnswer
         )
     }
     fun wordToModel(item: WordDbItem): WordModel {
@@ -53,7 +50,9 @@ abstract class MainDb: RoomDatabase() {
             wordForm = item.wordForm,
             tl = item.tl,
             learningStatus = item.learningStatus,
-            inLearning = item.inLearning
+            inLearning = item.inLearning,
+            successAnswer = item.successAnswer,
+            failAnswer = item.failAnswer
         )
     }
 }

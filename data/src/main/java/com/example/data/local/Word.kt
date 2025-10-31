@@ -34,7 +34,13 @@ data class WordDbItem(
     var learningStatus: Int,
 
     @ColumnInfo(name = "in_learning")
-    var inLearning: Boolean = false
+    var inLearning: Boolean = false,
+
+    @ColumnInfo(name = "success_answer")
+    var successAnswer: Int,
+
+    @ColumnInfo(name = "fail_answer")
+    var failAnswer: Int,
 )
 
 @Dao
