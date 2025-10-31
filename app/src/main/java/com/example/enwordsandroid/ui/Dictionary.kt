@@ -1,5 +1,6 @@
 package com.example.enwordsandroid.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,8 +28,12 @@ fun Dictionary(mainViewModel: MainViewModel) {
             modifier = Modifier.fillMaxWidth()
         ) {
             items(words) { item ->
-                Row {
+                Row (
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Text(item.word)
+                    Text(item.inLearning.toString())
                     Button(
                         onClick = {
                             item.inLearning = !item.inLearning
@@ -36,6 +41,13 @@ fun Dictionary(mainViewModel: MainViewModel) {
                         }
                     ) {
                         Text("Learn")
+                    }
+                    Button(
+                        onClick = {
+                            mainViewModel.deleteWord(item)
+                        }
+                    ) {
+                        Text("Delete")
                     }
                 }
                 Spacer(Modifier.height(5.dp))

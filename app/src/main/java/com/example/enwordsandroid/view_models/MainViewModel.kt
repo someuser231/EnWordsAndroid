@@ -3,7 +3,10 @@ package com.example.enwordsandroid.view_models
 import androidx.lifecycle.ViewModel
 import com.example.data.repo.WordsRepo
 import com.example.domain.models.WordModel
+import com.example.domain.usecases.DeleteWord
+import com.example.domain.usecases.GetInLearningWords
 import com.example.domain.usecases.GetWords
+import com.example.domain.usecases.LearnWords
 import com.example.domain.usecases.SaveWord
 import com.example.domain.usecases.UpdateWord
 import com.example.domain.usecases.WhTranslate
@@ -15,6 +18,8 @@ import kotlinx.coroutines.launch
 class MainViewModel(val repo: WordsRepo): ViewModel() {
     var word = MutableStateFlow<WordModel?>(null)
     var dbWords = MutableStateFlow<MutableList<WordModel>?>(null)
+
+    var lnWords = MutableStateFlow<MutableList<WordModel>?>(null)
 
     fun translate(wordInput: String) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -37,5 +42,25 @@ class MainViewModel(val repo: WordsRepo): ViewModel() {
     }
     fun updateWord(word: WordModel) {
         UpdateWord(repo).execute(word)
+    }
+    fun deleteWord(word: WordModel) {
+        DeleteWord(repo).execute(word)
+    }
+
+    fun getLearnWords() {
+        CoroutineScope(Dispatchers.IO).launch {
+            GetInLearningWords(repo).execute().collect {
+                lnWords.value = it
+            }
+        }
+    }
+
+    fun learnWords(know: Boolean): WordModel? {
+        if (lnWords.value != null) {
+            if (lnWords.value!!.isNotEmpty()) {
+                return LearnWords(lnWords.value!!).execute(know)
+            }
+        }
+        return null
     }
 }

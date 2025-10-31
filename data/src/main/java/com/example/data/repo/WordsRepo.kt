@@ -52,7 +52,29 @@ class WordsRepo(val db: MainDb): WordsRepoItf {
 
     override fun updateItemDb(word: WordModel) {
         CoroutineScope(Dispatchers.IO).launch {
-            val id = db.getWordDao().updateWord(db.wordToDbItem(word))
+            db.getWordDao().updateWord(db.wordToDbItem(word))
+        }
+    }
+
+    override fun deleteItemDb(word: WordModel) {
+        CoroutineScope(Dispatchers.IO).launch {
+            db.getWordDao().deleteWord(db.wordToDbItem(word))
+        }
+    }
+
+    override fun getLearnWords(): Flow<MutableList<WordModel>> {
+        return flow {
+            try {
+                val dbItems = db.getWordDao().getLearnWords()
+                val models = mutableListOf<WordModel>()
+                for (i in dbItems) {
+                    models.add(db.wordToModel(i))
+                }
+                emit(models)
+            }
+            catch (e: Exception) {
+                Log.e("EnWordsLog", e.toString())
+            }
         }
     }
 

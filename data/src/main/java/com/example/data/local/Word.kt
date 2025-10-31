@@ -2,6 +2,7 @@ package com.example.data.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -45,5 +46,11 @@ interface WordDao {
     suspend fun getWords(): List<WordDbItem>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateWord(word: WordDbItem): Int
+    suspend fun updateWord(word: WordDbItem)
+
+    @Delete
+    suspend fun deleteWord(word: WordDbItem)
+
+    @Query("select * from all_words where in_learning = 1")
+    suspend fun getLearnWords(): List<WordDbItem>
 }
