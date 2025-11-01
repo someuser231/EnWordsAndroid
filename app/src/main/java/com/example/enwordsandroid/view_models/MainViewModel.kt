@@ -1,7 +1,7 @@
 package com.example.enwordsandroid.view_models
 
 import androidx.lifecycle.ViewModel
-import com.example.data.repo.WordsRepo
+import com.example.domain.interfaces.WordsRepoItf
 import com.example.domain.models.WordModel
 import com.example.domain.usecases.DeleteWord
 import com.example.domain.usecases.GetInLearningWords
@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(val repo: WordsRepo): ViewModel() {
+class MainViewModel(val repo: WordsRepoItf): ViewModel() {
     var word = MutableStateFlow<WordModel?>(null)
     var dbWords = MutableStateFlow<MutableList<WordModel>?>(null)
 
