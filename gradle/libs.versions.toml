@@ -16,6 +16,7 @@ retrofit = "3.0.0"
 navCompose = "2.9.5"
 gson = "2.13.2"
 koin = "4.1.1"
+lifecycleCompose = "2.9.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,7 +41,9 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 retrofit-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navCompose"}
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson"}
-koin = { group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin"}
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin"}
+koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

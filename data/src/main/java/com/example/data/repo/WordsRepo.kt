@@ -4,7 +4,7 @@ import android.util.Log
 import com.example.data.local.MainDb
 import com.example.data.remote.RetrofitUtils
 import com.example.data.remote.wh.WhApi
-import com.example.data.remote.wh.WhResponse
+import com.example.data.remote.wh.WhWordDto
 import com.example.domain.interfaces.WordsRepoItf
 import com.example.domain.models.WordModel
 import kotlinx.coroutines.CoroutineScope
@@ -54,6 +54,7 @@ class WordsRepo(val db: MainDb): WordsRepoItf {
         CoroutineScope(Dispatchers.IO).launch {
             db.getWordDao().updateWord(db.wordToDbItem(word))
         }
+
     }
 
     override fun deleteItemDb(word: WordModel) {
@@ -78,7 +79,7 @@ class WordsRepo(val db: MainDb): WordsRepoItf {
         }
     }
 
-    private fun responseToModel(resp: WhResponse): WordModel {
+    private fun responseToModel(resp: WhWordDto): WordModel {
         return WordModel(
             word = resp.word,
             tcUk = resp.tc_uk,

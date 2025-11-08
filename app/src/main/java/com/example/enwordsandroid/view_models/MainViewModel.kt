@@ -19,6 +19,7 @@ class MainViewModel(val repo: WordsRepoItf): ViewModel() {
     var word = MutableStateFlow<WordModel?>(null)
     var dbWords = MutableStateFlow<MutableList<WordModel>?>(null)
 
+
     var lnWords = MutableStateFlow<MutableList<WordModel>?>(null)
 
     fun translate(wordInput: String) {

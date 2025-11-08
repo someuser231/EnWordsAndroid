@@ -19,11 +19,15 @@ import androidx.compose.ui.unit.sp
 import com.example.domain.models.WordModel
 import com.example.enwordsandroid.view_models.MainViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.koin.androidx.compose.koinViewModel
 
 val lnWord = MutableStateFlow<WordModel?>(null)
 
 @Composable
-fun Learning(mainViewModel: MainViewModel) {
+fun Learning(
+    mainViewModel: MainViewModel = koinViewModel()
+) {
+    mainViewModel.getLearnWords()
     Column (
         modifier = Modifier.fillMaxSize().padding(50.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

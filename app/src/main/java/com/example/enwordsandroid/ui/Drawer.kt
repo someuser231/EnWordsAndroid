@@ -19,13 +19,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.enwordsandroid.view_models.MainViewModel
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 const val screen_home = "home"
 const val screen_dict = "dictionary"
 const val screen_learn = "learning"
 
 @Composable
-fun Drawer(mainViewModel: MainViewModel) {
+fun Drawer(
+    mainViewModel: MainViewModel = koinViewModel()
+) {
     val drawerItems = listOf(
         DrawerItem(
             title = "Home",
@@ -80,15 +83,13 @@ fun Drawer(mainViewModel: MainViewModel) {
                 startDestination = screen_home,
             ) {
                 composable(screen_home) {
-                    Home(mainViewModel)
+                    Home()
                 }
                 composable(screen_dict) {
-                    Dictionary(mainViewModel)
-                    mainViewModel.getWords()
+                    Dictionary()
                 }
                 composable(screen_learn) {
-                    Learning(mainViewModel)
-                    mainViewModel.getLearnWords()
+                    Learning()
                 }
             }
         }

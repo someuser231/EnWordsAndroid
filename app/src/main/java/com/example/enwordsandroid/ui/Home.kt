@@ -18,27 +18,37 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.enwordsandroid.ui.themes.MainTheme
 import com.example.enwordsandroid.view_models.MainViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.koin.androidx.compose.koinViewModel
+
 
 var inputWord = MutableStateFlow("")
 
+@Preview(showBackground = true)
 @Composable
-fun Home(mainViewModel: MainViewModel) {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(20.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Companion.CenterHorizontally
-    ) {
-        UserInput(mainViewModel)
-        Spacer(Modifier.height(10.dp))
-        Translation(mainViewModel)
+fun Home() {
+    MainTheme {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(20.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Companion.CenterHorizontally
+        ) {
+            UserInput()
+            Spacer(Modifier.height(10.dp))
+            Translation()
+        }
     }
+
 }
 
 @Composable
-fun UserInput(mainViewModel: MainViewModel) {
+fun UserInput(
+    mainViewModel: MainViewModel = koinViewModel()
+) {
     Column {
         TextField(
             modifier = Modifier.fillMaxWidth(),
@@ -53,7 +63,9 @@ fun UserInput(mainViewModel: MainViewModel) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = { mainViewModel.translate(inputWord.value) },
+                onClick = {
+                    mainViewModel.translate(inputWord.value)
+                },
             ) {
                 Text("Translate")
             }
@@ -69,7 +81,9 @@ fun UserInput(mainViewModel: MainViewModel) {
 }
 
 @Composable
-fun Translation(mainViewModel: MainViewModel) {
+fun Translation(
+    mainViewModel: MainViewModel = koinViewModel()
+) {
     Column (
         modifier = Modifier.fillMaxWidth(),
         ) {

@@ -13,14 +13,24 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.enwordsandroid.view_models.MainViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun Dictionary(mainViewModel: MainViewModel) {
-    val words = mainViewModel.dbWords.collectAsState().value ?: listOf()
+fun Dictionary(
+    mainViewModel: MainViewModel = koinViewModel()
+) {
+    LaunchedEffect(Unit) {
+        mainViewModel.getWords()
+    }
+
+    val words = mainViewModel.dbWords.collectAsState().value?.toMutableStateList() ?: mutableListOf()
+
     Box(
         modifier = Modifier.fillMaxSize().padding(30.dp)
     ) {
@@ -36,8 +46,12 @@ fun Dictionary(mainViewModel: MainViewModel) {
                     Text(item.inLearning.toString())
                     Button(
                         onClick = {
-                            item.inLearning = !item.inLearning
-                            mainViewModel.updateWord(item)
+                            val newItem = item.copy()
+                            newItem.inLearning = !newItem.inLearning
+                            mainViewModel.updateWord(newItem)
+                            for (i in words.indices) {
+                                if (words[i].id == item.id) words[i] = newItem
+                            }
                         }
                     ) {
                         Text("Learn")
@@ -45,6 +59,7 @@ fun Dictionary(mainViewModel: MainViewModel) {
                     Button(
                         onClick = {
                             mainViewModel.deleteWord(item)
+                            words.remove(item)
                         }
                     ) {
                         Text("Delete")
