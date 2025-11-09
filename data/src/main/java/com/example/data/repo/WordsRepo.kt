@@ -23,7 +23,7 @@ class WordsRepo(val db: MainDb): WordsRepoItf {
                 emit(responseToModel(response))
             }
             catch (e: Exception) {
-                Log.e("EnWordsLog", e.toString())
+                logError(e)
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -45,7 +45,7 @@ class WordsRepo(val db: MainDb): WordsRepoItf {
                 emit(models)
             }
             catch (e: Exception) {
-                Log.e("EnWordsLog", e.toString())
+                logError(e)
             }
         }
     }
@@ -74,7 +74,19 @@ class WordsRepo(val db: MainDb): WordsRepoItf {
                 emit(models)
             }
             catch (e: Exception) {
-                Log.e("EnWordsLog", e.toString())
+                logError(e)
+            }
+        }
+    }
+
+    override fun getItemFromDb(id: Int): Flow<WordModel> {
+        return flow {
+            try {
+                val item = db.getWordDao().getItem(id)
+                emit(db.wordToModel(item))
+            }
+            catch (e: Exception) {
+                logError(e)
             }
         }
     }
@@ -87,5 +99,9 @@ class WordsRepo(val db: MainDb): WordsRepoItf {
             wordForm = resp.word_form,
             tl = resp.tl
         )
+    }
+
+    private fun logError(e: Exception) {
+        Log.e("EnWordsLog", e.toString())
     }
 }

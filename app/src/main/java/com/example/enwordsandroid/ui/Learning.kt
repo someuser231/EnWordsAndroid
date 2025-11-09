@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,13 +23,19 @@ import com.example.enwordsandroid.view_models.MainViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
 
-val lnWord = MutableStateFlow<WordModel?>(null)
 
 @Composable
 fun Learning(
     mainViewModel: MainViewModel = koinViewModel()
 ) {
-    mainViewModel.getLearnWords()
+    val lnWord = remember {
+        MutableStateFlow<WordModel?>(null)
+    }
+
+    LaunchedEffect(Unit) {
+        mainViewModel.getLearnWords()
+    }
+
     Column (
         modifier = Modifier.fillMaxSize().padding(50.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

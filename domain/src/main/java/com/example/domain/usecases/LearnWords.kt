@@ -19,11 +19,22 @@ class LearnWords(val repo: WordsRepoItf, val word: WordModel?, val lnWords: List
     }
 
     private fun randWord(): WordModel {
-        return lnWords.random()
+        var newWord = lnWords.random()
+
+        if (lnWords.size > 1) {
+            while (true) {
+                if (newWord == word) newWord = lnWords.random()
+                else break
+            }
+        }
+
+        return newWord
     }
 
     private fun learnStatus(word: WordModel): Int {
-        return when (word.successAnswer) {
+        val result =  word.successAnswer / (word.failAnswer + 1)
+
+        return when (result) {
             in 1..5 -> 1
             in 6..10 -> 2
             in 11..Int.MAX_VALUE -> 3

@@ -5,6 +5,7 @@ import com.example.domain.interfaces.WordsRepoItf
 import com.example.domain.models.WordModel
 import com.example.domain.usecases.DeleteWord
 import com.example.domain.usecases.GetInLearningWords
+import com.example.domain.usecases.GetOneWord
 import com.example.domain.usecases.GetWords
 import com.example.domain.usecases.LearnWords
 import com.example.domain.usecases.SaveWord
@@ -29,10 +30,22 @@ class MainViewModel(val repo: WordsRepoItf): ViewModel() {
             }
         }
     }
-    fun saveWord() {
-        if (word.value != null) {
-            SaveWord(repo).execute(word.value!!)
-        }
+    fun saveWord(wordStr: String) {
+        var curWord: WordModel? = null
+        curWord =
+            if (word.value != null) {
+                word.value
+            } else {
+                WordModel(
+                    word = wordStr,
+                    tcUk = null,
+                    tcUs = null,
+                    wordForm = null,
+                    tl = null,
+                )
+            }
+        SaveWord(repo).execute(curWord!!)
+
     }
     fun getWords() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -63,5 +76,13 @@ class MainViewModel(val repo: WordsRepoItf): ViewModel() {
             }
         }
         return null
+    }
+
+    fun getOneWord(wordId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            GetOneWord(repo).execute(wordId).collect {
+                word.value = it
+            }
+        }
     }
 }

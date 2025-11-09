@@ -59,4 +59,7 @@ interface WordDao {
 
     @Query("select * from all_words where in_learning = 1")
     suspend fun getLearnWords(): List<WordDbItem>
+
+    @Query("select * from all_words where id = :id")
+    suspend fun getItem(id: Int): WordDbItem
 }

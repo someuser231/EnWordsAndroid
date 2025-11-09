@@ -11,4 +11,5 @@ interface WordsRepoItf {
     fun updateItemDb(word: WordModel)
     fun deleteItemDb(word: WordModel)
     fun getLearnWords(): Flow<MutableList<WordModel>>
+    fun getItemFromDb(id: Int): Flow<WordModel>
 }
