@@ -23,7 +23,6 @@ import com.example.enwordsandroid.view_models.MainViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
 
-
 @Composable
 fun Learning(
     mainViewModel: MainViewModel = koinViewModel()
@@ -34,6 +33,7 @@ fun Learning(
 
     LaunchedEffect(Unit) {
         mainViewModel.getLearnWords()
+        lnWord.value = mainViewModel.learnWords(lnWord.value, false)
     }
 
     Column (
@@ -42,7 +42,10 @@ fun Learning(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = lnWord.collectAsState().value?.word ?: "A word will be here",
+            text =
+                lnWord.collectAsState().value?.word ?:
+                mainViewModel.lnWords.collectAsState().value?.randomOrNull()?.word ?:
+                "Select words for learning...",
             fontSize = 20.sp,
         )
         Spacer(Modifier.height(100.dp))
